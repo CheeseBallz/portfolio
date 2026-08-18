@@ -53,11 +53,7 @@ export function BottomNav() {
             }`}
           >
             <Icon
-              className={`h-5 w-5 ${
-                isActive
-                  ? "drop-shadow-[0_0_6px_rgba(125,211,252,0.5)]"
-                  : ""
-              }`}
+              className="h-5 w-5"
               strokeWidth={isActive ? 2 : 1.5}
               fill="none"
             />
