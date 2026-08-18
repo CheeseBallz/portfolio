@@ -42,8 +42,8 @@ A modern, high-performance portfolio for a developer & security engineer, built 
 
 ```bash
 # Clone the repository
-git clone https://github.com/<your-username>/<your-repo>.git
-cd <your-repo>
+git clone https://github.com/CheeseBallz/portfolio
+cd portfolio
 
 # Install dependencies
 npm install
