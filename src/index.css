@@ -1,0 +1,88 @@
+@import url("https://api.fontshare.com/v2/css?f[]=satoshi@1,2,3,4,5,6,7,8,9&display=swap");
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@font-face {
+  font-family: "Geist Sans";
+  src: url("/fonts/Geist-Variable.woff2") format("woff2-variations");
+  font-weight: 100 900;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Geist Mono";
+  src: url("/fonts/GeistMono-Variable.woff2") format("woff2-variations");
+  font-weight: 100 900;
+  font-display: swap;
+}
+
+@theme {
+  --color-canvas: #09090b;
+  --color-canvas-soft: #0e121c;
+  --color-surface: #111217;
+  --color-raised: #0e0f13;
+  --color-elevated: #171a21;
+  --color-edge: #1f2330;
+  --color-edge-strong: #313746;
+  --color-muted: #9aa4b8;
+  --color-faint: #8b93a5;
+  --color-accent: #7dd3fc;
+  --color-accent-bright: #bae6fd;
+  --font-sans: "Geist Sans", sans-serif;
+  --font-mono: "Geist Mono", monospace;
+  --font-satoshi: "Satoshi", sans-serif;
+  --ease-premium: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+* {
+  scrollbar-width: none;
+}
+
+*::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
+}
+
+body {
+  margin: 0;
+  background-color: var(--color-canvas);
+  color: #ffffff;
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+::selection {
+  background: rgba(125, 211, 252, 0.22);
+  color: #ffffff;
+}
+
+.group:hover .sidebar-glow {
+  text-shadow: 0 0 8px rgba(125, 211, 252, 0.5), 0 0 20px rgba(125, 211, 252, 0.3);
+}
+
+/* Masked line reveal primitive — GSAP animates the inner element yPercent 110 -> 0 */
+.line-mask {
+  display: block;
+  overflow: hidden;
+  padding-block: 0.17em;
+  margin-block: -0.17em;
+}
+
+.line-mask > span,
+.line-mask > .hero-line-inner {
+  display: block;
+  will-change: transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
