@@ -78,8 +78,8 @@ export function Contact() {
         >
           <Magnetic strength={5}>
             <a
-              href="/Sumaid%20Ahmed%20-%20Resume.pdf"
-              download="Sumaid Ahmed - Resume.pdf"
+              href="/Sumaid%20Ahmed%20Resume.pdf"
+              download="Sumaid Ahmed Resume.pdf"
               className="inline-flex items-center gap-1.5 rounded-lg border border-edge px-4 py-2 text-xs text-muted transition-colors duration-300 hover:border-edge-strong hover:text-white"
             >
               <Download className="h-3.5 w-3.5" />
