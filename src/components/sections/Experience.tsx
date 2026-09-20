@@ -1,6 +1,6 @@
-import { useRef } from "react"
-import { motion, useScroll, useTransform } from "framer-motion"
-import { ArrowUpRight, ExternalLink, MapPin } from "lucide-react"
+import { useRef, useState, useEffect } from "react"
+import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion"
+import { ArrowUpRight, Award, ExternalLink, MapPin, X } from "lucide-react"
 import { useAnimateInView } from "../../hooks/useAnimateInView"
 import { fadeInUp } from "../../animations/framerVariants"
 import { experience, timeline } from "../../data/portfolio"
@@ -43,7 +43,107 @@ function Cell({ item }: { item: typeof experience[number] }) {
   )
 }
 
-function TimelineEntry({ item, index }: { item: typeof timeline[number]; index: number }) {
+function CertificateModal({
+  isOpen,
+  onClose,
+  certUrl,
+  title,
+}: {
+  isOpen: boolean
+  onClose: () => void
+  certUrl: string
+  title: string
+}) {
+  useEffect(() => {
+    if (!isOpen) return
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose()
+    }
+    window.addEventListener("keydown", handleKeyDown)
+    const prevOverflow = document.body.style.overflow
+    document.body.style.overflow = "hidden"
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown)
+      document.body.style.overflow = prevOverflow
+    }
+  }, [isOpen, onClose])
+
+  return (
+    <AnimatePresence>
+      {isOpen && (
+        <motion.div
+          role="dialog"
+          aria-modal="true"
+          aria-label={title}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.2 }}
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 md:p-10 bg-black/85 backdrop-blur-md"
+          onClick={onClose}
+        >
+          <motion.div
+            initial={{ opacity: 0, scale: 0.94, y: 16 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.94, y: 16 }}
+            transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
+            onClick={(e) => e.stopPropagation()}
+            className="relative flex flex-col max-w-4xl w-full max-h-[92vh] rounded-2xl border border-white/[0.12] bg-[#0c0e14] shadow-[0_25px_70px_rgba(0,0,0,0.85),0_0_30px_rgba(125,211,252,0.12)] overflow-hidden"
+          >
+            {/* Modal Header */}
+            <div className="flex items-center justify-between border-b border-white/[0.08] px-5 py-3.5 bg-surface/90 backdrop-blur-md">
+              <div className="flex items-center gap-2.5 min-w-0 pr-4">
+                <Award className="h-4 w-4 shrink-0 text-accent" />
+                <span className="truncate text-xs sm:text-sm font-semibold text-white">
+                  {title}
+                </span>
+              </div>
+              <div className="flex items-center gap-2 shrink-0">
+                <a
+                  href={certUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 rounded-md border border-edge bg-raised/70 px-2.5 py-1 text-xs text-muted transition-colors hover:border-accent/40 hover:text-white"
+                  title="Open full size in new tab"
+                >
+                  <ExternalLink className="h-3 w-3" />
+                  <span className="hidden sm:inline">Open original</span>
+                </a>
+                <button
+                  type="button"
+                  onClick={onClose}
+                  aria-label="Close certificate preview"
+                  className="inline-flex h-7 w-7 items-center justify-center rounded-md border border-edge bg-raised text-muted transition-colors hover:border-white/30 hover:text-white cursor-pointer"
+                >
+                  <X className="h-4 w-4" />
+                </button>
+              </div>
+            </div>
+
+            {/* Modal Image Body */}
+            <div className="relative flex-1 overflow-auto p-3 sm:p-5 flex items-center justify-center bg-canvas/60">
+              <img
+                src={certUrl}
+                alt={title}
+                className="max-h-[75vh] w-auto max-w-full rounded-lg object-contain shadow-2xl border border-white/[0.08]"
+              />
+            </div>
+          </motion.div>
+        </motion.div>
+      )}
+    </AnimatePresence>
+  )
+}
+
+function TimelineEntry({
+  item,
+  index,
+  onViewCertificate,
+}: {
+  item: typeof timeline[number]
+  index: number
+  onViewCertificate?: (url: string, title: string) => void
+}) {
   const rank = String(index + 1).padStart(2, "0")
   const points = item.description.split(". ").filter(Boolean)
 
@@ -113,6 +213,19 @@ function TimelineEntry({ item, index }: { item: typeof timeline[number]; index: 
               </li>
             ))}
           </ul>
+
+          {item.certificate && (
+            <div className="mt-5 pt-1">
+              <button
+                type="button"
+                onClick={() => onViewCertificate?.(item.certificate!, `${item.role} · ${item.company}`)}
+                className="group/cert inline-flex items-center gap-2 rounded-lg border border-accent/40 bg-accent/[0.04] px-3.5 py-1.5 text-xs font-medium text-accent transition-all duration-300 hover:border-accent hover:bg-accent/15 hover:shadow-[0_0_16px_rgba(125,211,252,0.18)] active:scale-95 cursor-pointer"
+              >
+                <Award className="h-3.5 w-3.5 transition-transform duration-300 group-hover/cert:scale-110" />
+                <span>View Certificate</span>
+              </button>
+            </div>
+          )}
         </div>
       </motion.div>
     </div>
@@ -120,6 +233,7 @@ function TimelineEntry({ item, index }: { item: typeof timeline[number]; index: 
 }
 
 export function Experience() {
+  const [selectedCert, setSelectedCert] = useState<{ url: string; title: string } | null>(null)
   const { ref: certRef, isInView } = useAnimateInView(0.05)
   const timelineRef = useRef<HTMLDivElement>(null)
   const { scrollYProgress } = useScroll({
@@ -194,10 +308,22 @@ export function Experience() {
             </div>
 
             {timeline.map((item, i) => (
-              <TimelineEntry key={item.company} item={item} index={i} />
+              <TimelineEntry
+                key={item.company}
+                item={item}
+                index={i}
+                onViewCertificate={(url, title) => setSelectedCert({ url, title })}
+              />
             ))}
           </div>
         </div>
+
+        <CertificateModal
+          isOpen={Boolean(selectedCert)}
+          onClose={() => setSelectedCert(null)}
+          certUrl={selectedCert?.url ?? ""}
+          title={selectedCert?.title ?? ""}
+        />
       </div>
     </section>
   )
