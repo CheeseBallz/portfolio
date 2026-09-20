@@ -13,7 +13,7 @@ const cards = [
     content: (
       <>
         <p className="text-sm font-medium text-white transition-all duration-300 group-hover:font-bold">B.S. Computer Science</p>
-        <p className="mt-1 text-sm text-muted transition-all duration-300 group-hover:font-bold group-hover:text-white">SZABIST University</p>
+        <p className="mt-1 text-sm text-muted transition-all duration-300 group-hover:font-bold group-hover:text-white">Air University Islamabad</p>
         <p className="mt-1 text-xs text-faint transition-all duration-300 group-hover:font-bold group-hover:text-white">Expected Graduation: 2029</p>
       </>
     ),
