@@ -49,6 +49,7 @@ export interface Experience {
   location?: string
   companyUrl?: string
   link?: string
+  certificate?: string
 }
 
 export interface StackCategory {
@@ -143,6 +144,16 @@ export const experience: Experience[] = [
 
 export const timeline: Experience[] = [
   {
+    category: "Cybersecurity Workshop",
+    company: "Ignite",
+    role: "5th Digital Pakistan Cybersecurity Workshop",
+    period: "18 Sep – 20 Sep 2026",
+    description:
+      "Completed an intensive cybersecurity workshop covering core areas including network and wireless security, cryptography, OS security, VAPT/red teaming, OSINT, web and mobile application security, DFIR, and malware analysis. Applied the concepts through hands-on CTF challenges and practical security exercises, developing experience in vulnerability analysis, reconnaissance, exploitation methodology, and incident investigation.",
+    location: "Islamabad · FAST-NU",
+    companyUrl: "https://ignite.org.pk/cyberhackathon/",
+  },
+  {
     category: "Ethical Hacker Intern",
     company: "Axeronix Tech",
     role: "Ethical Hacker Intern",
@@ -151,6 +162,17 @@ export const timeline: Experience[] = [
       "Supported hands-on security engagements across ethical hacking, penetration testing, and web application security. Performed reconnaissance and vulnerability assessments across web, network, and application surfaces, and deepened practical command of exploitation and bug bounty methodology through structured security labs and real-world scenarios.",
     location: "Islamabad · Remote",
     companyUrl: "https://www.axeronixtech.com/",
+  },
+  {
+    category: "Cyber Security Intern",
+    company: "SafeX Solutions",
+    role: "Cyber Security Intern",
+    period: "June 2026 – September 2026",
+    description:
+      "Conducted hands-on cybersecurity research and security assessments covering passive reconnaissance, DNS/email security, cryptographic weaknesses, and client-ready security auditing. Built security-focused tools and reports, including a SOC-style monitoring dashboard, while documenting findings, risk, mitigations, and professional security recommendations.",
+    location: "Islamabad · Remote",
+    companyUrl: "https://safexsolutions.com/",
+    certificate: "/Certificate.png",
   },
   {
     category: "Team Lead – R&D",
